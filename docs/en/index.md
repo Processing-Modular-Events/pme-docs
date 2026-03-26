@@ -21,26 +21,26 @@ graph LR
 
 ## Create a module
 
-Any developer can create a module by importing the SDK:
+Use the [**template**](https://github.com/Processing-Modular-Events/pme-module-template) to get started, then edit `module.yml`:
 
-```xml
-<dependency>
-    <groupId>fr.capellegab</groupId>
-    <artifactId>pme-sdk</artifactId>
-    <version>0.0.1</version>
-</dependency>
+```yaml
+name: my-module
+version: 1.0.0
+author: my-name
+description: My module description
+priority: MEDIUM
+subscribes-to:
+  - TRANSACTION
 ```
+
+And implement `EventModule`:
 
 ```java
 public class MyModule implements EventModule {
 
     @Override
     public ModuleConfig config() {
-        return new ModuleConfig(
-            "my-module",
-            Set.of(EventType.TRANSACTION),
-            Priority.MEDIUM
-        );
+        return ModuleConfigReader.load();
     }
 
     @Override

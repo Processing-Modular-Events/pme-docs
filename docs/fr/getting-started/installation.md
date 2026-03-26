@@ -5,7 +5,7 @@
 - Java 25+
 - Maven 3.9+
 
-## Ajouter la dependance
+## Dependance Maven
 
 Le SDK est publie sur GitHub Packages. Ajoutez-le a votre `pom.xml` :
 
@@ -19,7 +19,7 @@ Le SDK est publie sur GitHub Packages. Ajoutez-le a votre `pom.xml` :
 
 ## Configurer GitHub Packages
 
-Pour que Maven puisse telecharger le SDK, ajoutez le repository dans votre `pom.xml` :
+Ajoutez le repository dans votre `pom.xml` :
 
 ```xml
 <repositories>
