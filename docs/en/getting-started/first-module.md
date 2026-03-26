@@ -2,34 +2,36 @@
 
 This guide walks you through creating your first PME module.
 
-## 1. Create the project
+## 1. Use the template
 
-Create a new Maven project and add the `pme-sdk` dependency (see [Installation](installation.md)).
+Go to [**pme-module-template**](https://github.com/Processing-Modular-Events/pme-module-template) and click **"Use this template"**. Rename the repo to `pme-module-{your-name}`.
 
-## 2. Implement `EventModule`
+The template already contains the mandatory structure, `pom.xml` and `module.yml`.
 
-This is the only required interface. It defines:
+## 2. Edit `module.yml`
 
-- **`config()`** — your module's configuration
-- **`onEvent()`** — the logic executed for each received event
+Open `src/main/resources/module.yml` and fill in your module's info:
+
+```yaml
+name: my-module
+version: 1.0.0
+author: my-name
+description: My module description
+priority: MEDIUM
+subscribes-to:
+  - TRANSACTION
+```
+
+## 3. Edit the code
+
+Rename the package and class to match your module, then implement your logic in `onEvent()`:
 
 ```java
-package com.example.mymodule;
-
-import fr.capellegab.api.event.*;
-import fr.capellegab.api.module.*;
-
-import java.util.Set;
-
 public class MyModule implements EventModule {
 
     @Override
     public ModuleConfig config() {
-        return new ModuleConfig(
-            "my-module",                       // unique name
-            Set.of(EventType.TRANSACTION),     // event types to listen to
-            Priority.MEDIUM                    // module priority
-        );
+        return ModuleConfigReader.load();
     }
 
     @Override
@@ -43,15 +45,19 @@ public class MyModule implements EventModule {
 }
 ```
 
-## 3. Configuration details
+`ModuleConfigReader.load()` reads this file and builds the `ModuleConfig` automatically.
 
-`ModuleConfig` defines your module's behavior:
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `name` | `string` | Yes | Unique module identifier |
+| `version` | `string` | Yes | Module version (e.g. `1.0.0`) |
+| `author` | `string` | Yes | Author or organization |
+| `description` | `string` | Yes | Short module description |
+| `priority` | `string` | Yes | `LOW`, `MEDIUM`, `HIGH` or `CRITICAL` |
+| `subscribes-to` | `list` | Yes | Event types to listen to |
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `moduleName` | `String` | Unique module identifier |
-| `subscribesTo` | `Set<EventType>` | Event types the module receives |
-| `priority` | `Priority` | Processing priority (`LOW`, `MEDIUM`, `HIGH`, `CRITICAL`) |
+!!! warning "Validation"
+    A missing or empty field causes a startup error. The core refuses to load the module.
 
 ### Listen to multiple event types
 

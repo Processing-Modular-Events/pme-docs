@@ -65,7 +65,7 @@ public class MyModule implements EventModule, ModuleLifecycle {
 
     @Override
     public ModuleConfig config() {
-        return new ModuleConfig("my-module", Set.of(EventType.TRANSACTION), Priority.MEDIUM);
+        return new ModuleConfig("my-module", "1.0.0", "author", "Description", Set.of(EventType.TRANSACTION), Priority.MEDIUM);
     }
 
     @Override

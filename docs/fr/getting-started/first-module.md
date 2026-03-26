@@ -2,34 +2,36 @@
 
 Ce guide vous accompagne dans la creation de votre premier module PME.
 
-## 1. Creer le projet
+## 1. Utiliser le template
 
-Creez un nouveau projet Maven et ajoutez la dependance `pme-sdk` (voir [Installation](installation.md)).
+Rendez-vous sur [**pme-module-template**](https://github.com/Processing-Modular-Events/pme-module-template) et cliquez sur **"Use this template"**. Renommez le repo en `pme-module-{votre-nom}`.
 
-## 2. Implementer `EventModule`
+Le template contient deja toute la structure obligatoire, le `pom.xml` et le `module.yml`.
 
-C'est la seule interface obligatoire. Elle definit :
+## 2. Modifier `module.yml`
 
-- **`config()`** — la configuration de votre module
-- **`onEvent()`** — la logique executee a chaque evenement recu
+Ouvrez `src/main/resources/module.yml` et renseignez les infos de votre module :
+
+```yaml
+name: my-module
+version: 1.0.0
+author: mon-nom
+description: Description de mon module
+priority: MEDIUM
+subscribes-to:
+  - TRANSACTION
+```
+
+## 3. Modifier le code
+
+Renommez le package et la classe par le nom de votre module, puis implementez votre logique dans `onEvent()` :
 
 ```java
-package com.example.mymodule;
-
-import fr.capellegab.api.event.*;
-import fr.capellegab.api.module.*;
-
-import java.util.Set;
-
 public class MyModule implements EventModule {
 
     @Override
     public ModuleConfig config() {
-        return new ModuleConfig(
-            "my-module",                       // nom unique
-            Set.of(EventType.TRANSACTION),     // types d'evenements ecoutes
-            Priority.MEDIUM                    // priorite du module
-        );
+        return ModuleConfigReader.load();
     }
 
     @Override
@@ -43,15 +45,19 @@ public class MyModule implements EventModule {
 }
 ```
 
-## 3. Configuration detaillee
+`ModuleConfigReader.load()` lit ce fichier et construit le `ModuleConfig` automatiquement.
 
-Le `ModuleConfig` definit le comportement de votre module :
+| Champ | Type | Obligatoire | Description |
+|-------|------|-------------|-------------|
+| `name` | `string` | Oui | Identifiant unique du module |
+| `version` | `string` | Oui | Version du module (ex: `1.0.0`) |
+| `author` | `string` | Oui | Auteur ou organisation |
+| `description` | `string` | Oui | Description courte du module |
+| `priority` | `string` | Oui | `LOW`, `MEDIUM`, `HIGH` ou `CRITICAL` |
+| `subscribes-to` | `list` | Oui | Types d'evenements ecoutes |
 
-| Champ | Type | Description |
-|-------|------|-------------|
-| `moduleName` | `String` | Identifiant unique du module |
-| `subscribesTo` | `Set<EventType>` | Types d'evenements que le module recoit |
-| `priority` | `Priority` | Priorite de traitement (`LOW`, `MEDIUM`, `HIGH`, `CRITICAL`) |
+!!! warning "Validation"
+    Un champ manquant ou vide provoque une erreur au demarrage. Le core refuse de charger le module.
 
 ### Ecouter plusieurs types d'evenements
 
@@ -65,7 +71,7 @@ Set.of(EventType.TRANSACTION, EventType.USER_ACTION, EventType.SYSTEM_LOG)
 Set.of(EventType.values())
 ```
 
-## 4. Utiliser le contexte
+## 4. Champs du `module.yml`
 
 Le `EventContext` est fourni par le core a chaque appel de `onEvent()`. Il permet de :
 

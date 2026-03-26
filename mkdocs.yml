@@ -86,6 +86,7 @@ nav:
   - Demarrage:
       - Installation: getting-started/installation.md
       - Premier module: getting-started/first-module.md
+      - Architecture d'un module: getting-started/architecture.md
   - SDK Reference:
       - Vue d'ensemble: sdk/index.md
       - Event:
