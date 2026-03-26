@@ -1,0 +1,15 @@
+# Build
+site/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# IDE
+.idea/
+*.iml
+
+# OS
+.DS_Store

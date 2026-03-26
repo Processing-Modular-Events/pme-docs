@@ -1,0 +1,99 @@
+site_name: PME Documentation
+site_url: https://processing-modular-events.github.io/pme-docs/
+site_description: Documentation officielle de Processing Modular Events
+
+repo_url: https://github.com/Processing-Modular-Events/pme-sdk
+repo_name: pme-sdk
+
+theme:
+  name: material
+  language: fr
+  palette:
+    - scheme: default
+      primary: deep purple
+      accent: deep purple
+      toggle:
+        icon: material/brightness-7
+        name: Mode sombre
+    - scheme: slate
+      primary: deep purple
+      accent: deep purple
+      toggle:
+        icon: material/brightness-4
+        name: Mode clair
+  font:
+    text: Inter
+    code: JetBrains Mono
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.tabs.link
+    - toc.follow
+
+plugins:
+  - search:
+      lang:
+        - fr
+        - en
+  - i18n:
+      docs_structure: folder
+      languages:
+        - locale: fr
+          name: Francais
+          default: true
+          build: true
+        - locale: en
+          name: English
+          build: true
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.highlight:
+      use_pygments: true
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.snippets
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/Processing-Modular-Events
+
+nav:
+  - Accueil: index.md
+  - Demarrage:
+      - Installation: getting-started/installation.md
+      - Premier module: getting-started/first-module.md
+  - SDK Reference:
+      - Vue d'ensemble: sdk/index.md
+      - Event:
+          - Event: sdk/event/event.md
+          - EventType: sdk/event/event-type.md
+          - Priority: sdk/event/priority.md
+      - Module:
+          - EventModule: sdk/module/event-module.md
+          - EventContext: sdk/module/event-context.md
+          - ModuleConfig: sdk/module/module-config.md
+          - ModuleLifecycle: sdk/module/module-lifecycle.md
+  - Architecture: architecture/index.md
