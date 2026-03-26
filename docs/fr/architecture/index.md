@@ -13,7 +13,7 @@ graph TB
     subgraph Core
         API[REST API<br/>POST /api/events]
         ES[(Elasticsearch)]
-        K[Apache Kafka<br/>Topic: events.ingested]
+        K[Apache Kafka<br/>Topic: events.api]
         ML[Module Loader]
         MD[Module Dispatcher]
     end
@@ -66,7 +66,7 @@ Chaque module est un jar independant qui implemente `EventModule`. Le core les c
 
 1. **Reception** — `POST /api/events` recoit un evenement JSON
 2. **Persistence** — L'evenement est indexe dans Elasticsearch
-3. **Publication** — L'evenement est publie sur le topic Kafka `events.ingested`
+3. **Publication** — L'evenement est publie sur le topic Kafka `events.api`
 4. **Dispatch** — Le `ModuleDispatcher` le route vers les modules dont le `EventType` matche
 5. **Traitement** — Chaque module execute sa logique dans `onEvent()`
 
